@@ -11,5 +11,13 @@ import org.checkerframework.framework.qual.StubFiles;
         "apache.commons.io.astub",
         "apache.commons.lang.astub",
         "general.astub",
+        "Base64.astub",
+        "File.astub",
+        "Files.astub",
+        "FileUtils.astub",
+        "JdbcTemplate.astub",
+        "Path.astub",
+        "String.astub",
+        "TempFileHelper.astub"
 })
 public class UCRTaintingChecker extends BaseTypeChecker {}
