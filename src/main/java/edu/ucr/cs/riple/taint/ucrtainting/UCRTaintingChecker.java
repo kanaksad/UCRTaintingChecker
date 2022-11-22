@@ -18,6 +18,9 @@ import org.checkerframework.framework.qual.StubFiles;
         "JdbcTemplate.astub",
         "Path.astub",
         "String.astub",
-        "TempFileHelper.astub"
+        "TempFileHelper.astub",
+        "Statement.astub",
+        "Object.astub",
+        "ProcessBuilder.astub"
 })
 public class UCRTaintingChecker extends BaseTypeChecker {}
