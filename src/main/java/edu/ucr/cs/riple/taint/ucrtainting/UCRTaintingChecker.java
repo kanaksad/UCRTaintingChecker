@@ -11,5 +11,9 @@ import org.checkerframework.framework.qual.StubFiles;
         "apache.commons.io.astub",
         "apache.commons.lang.astub",
         "general.astub",
+        "URL.astub",
+        "File.astub",
+        "Files.astub",
+        "Path.astub",
 })
 public class UCRTaintingChecker extends BaseTypeChecker {}
