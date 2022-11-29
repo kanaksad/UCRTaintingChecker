@@ -80,6 +80,7 @@ import java.util.stream.StreamSupport;
 import sun.nio.ch.FileChannelImpl;
 import sun.nio.fs.AbstractFileSystemProvider;
 import edu.ucr.cs.riple.taint.ucrtainting.qual.RPolyTainted;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This class consists exclusively of static methods that operate on files,
@@ -150,7 +151,7 @@ public final class Files {
      *          installed, the {@link SecurityManager#checkRead(String) checkRead}
      *          method is invoked to check read access to the file.
      */
-    public static InputStream newInputStream(Path path, OpenOption... options)
+    public static InputStream newInputStream(@RUntainted Path path, OpenOption... options)
         throws IOException
     {
         return provider(path).newInputStream(path, options);
@@ -735,7 +736,7 @@ public final class Files {
      *          SecurityManager#checkPropertyAccess(String) checkPropertyAccess}
      *          method to check access to the system property {@code user.dir}
      */
-    public static Path createDirectories(Path dir, FileAttribute<?>... attrs)
+    public static Path createDirectories(@Runtainted Path dir, FileAttribute<?>... attrs)
         throws IOException
     {
         // attempt to create the directory
@@ -905,7 +906,7 @@ public final class Files {
      *          installed, the {@link SecurityManager#checkWrite(String) checkWrite}
      *          method is invoked to check write access to the file.
      */
-    public static Path createTempFile(String prefix,
+    public static @RPolyTainted Path createTempFile(@RPolyTainted String prefix,
                                       String suffix,
                                       FileAttribute<?>... attrs)
         throws IOException
@@ -958,7 +959,7 @@ public final class Files {
      *          method is invoked to check write access when creating the
      *          directory.
      */
-    public static @RPolyTainted Path createTempDirectory(Path dir,
+    public static @RPolyTainted Path createTempDirectory(@RPolyTainted Path dir,
                                            @RPolyTainted String prefix,
                                            FileAttribute<?>... attrs)
         throws IOException
@@ -1138,7 +1139,7 @@ public final class Files {
      *          installed, the {@link SecurityManager#checkDelete(String)} method
      *          is invoked to check delete access to the file
      */
-    public static void delete(Path path) throws IOException {
+    public static void delete(@RUntainted Path path) throws IOException {
         provider(path).delete(path);
     }
 
@@ -1413,7 +1414,7 @@ public final class Files {
      *          method is invoked to check write access to both the source and
      *          target file.
      */
-    public static Path move(Path source, Path target, CopyOption... options)
+    public static @RPolyTainted Path move(@RUntainted Path source, @RUntainted Path target, CopyOption... options)
         throws IOException
     {
         FileSystemProvider provider = provider(source);

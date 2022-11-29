@@ -765,7 +765,7 @@ public interface Path
      * @throws  UnsupportedOperationException
      *          if this {@code Path} is not associated with the default provider
      */
-    default @RPolyTainted File toFile() {
+    default @RPolyTainted File toFile(@RPolyTainted Path this) {
         if (getFileSystem() == FileSystems.getDefault()) {
             return new File(toString());
         } else {

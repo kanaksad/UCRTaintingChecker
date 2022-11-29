@@ -2058,8 +2058,8 @@ public class File
      *
      * @since 1.2
      */
-    public static File createTempFile(String prefix, String suffix,
-                                      File directory)
+    public static @RPolyTainted File createTempFile(@RPolyTainted String prefix, @RPolyTainted String suffix,
+                                      @RPolyTainted File directory)
         throws IOException
     {
         if (prefix.length() < 3) {
@@ -2131,7 +2131,7 @@ public class File
      * @since 1.2
      * @see java.nio.file.Files#createTempDirectory(String,FileAttribute[])
      */
-    public static File createTempFile(String prefix, String suffix)
+    public static @RPolyTainted File createTempFile(@RPolyTainted String prefix, @RPolyTainted String suffix)
         throws IOException
     {
         return createTempFile(prefix, suffix, null);
@@ -2282,7 +2282,7 @@ public class File
      * @since   1.7
      * @see Path#toFile
      */
-    public Path toPath() {
+    public @RPolyTainted Path toPath(@RPolyTainted File this) {
         Path result = filePath;
         if (result == null) {
             synchronized (this) {

@@ -1,7 +1,7 @@
 import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 package javax.servlet;
-/*
+
 public class ServletResponse {
 	public void setContentType(@RUntainted String type);
 	public void setCharacterEncoding(@RUntainted String charset);
@@ -31,7 +31,6 @@ public class HttpServletResponse {
 	public void addHeader(@RUntainted String name, @RUntainted String value);
 	public void setIntHeader(@RUntainted String name, int value);
 }
-*/
 
 package javax.mail.internet;
 public class InternetAddress {
@@ -79,7 +78,6 @@ public class Thread {
 	public static native void sleep(long millis) throws InterruptedException;
 }
 
-/*
 public class Class {
 	public static Class forName(@RUntainted Module module, @RUntainted String name);
 	public URL getResource(@RUntainted String name);
@@ -91,7 +89,6 @@ public class Class {
 	public Method getMethod(@RUntainted String name, @RUntainted Class<?>... parameterTypes) throws NoSuchMethodException, SecurityException;
 	public static Class forName(@RUntainted String name, boolean initialize, @RUntainted ClassLoader loader) throws ClassNotFoundException;
 }
-*/
 
 package javax.persistence;
 public class EntityManager {
