@@ -15,5 +15,7 @@ import org.checkerframework.framework.qual.StubFiles;
         "File.astub",
         "Files.astub",
         "Path.astub",
+        "Paths.astub",
+        "System.astub",
 })
 public class UCRTaintingChecker extends BaseTypeChecker {}

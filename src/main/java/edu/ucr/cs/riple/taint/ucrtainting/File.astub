@@ -451,7 +451,7 @@ public class File
      *          pathname, or the empty string if this pathname's name sequence
      *          is empty
      */
-    public String getName() {
+    public @RPolyTainted String getName(@RPolyTainted File this) {
         int index = path.lastIndexOf(separatorChar);
         if (index < prefixLength) return path.substring(prefixLength);
         return path.substring(index + 1);
@@ -496,7 +496,7 @@ public class File
      *
      * @since 1.2
      */
-    public @RPolyTainted File getParentFile() {
+    public @RPolyTainted File getParentFile(@RPolyTainted File this) {
         String p = this.getParent();
         if (p == null) return null;
         return new File(p, this.prefixLength);
@@ -569,7 +569,7 @@ public class File
      *
      * @since 1.2
      */
-    public File getAbsoluteFile() {
+    public @RPolyTainted File getAbsoluteFile(@RPolyTainted File this) {
         String absPath = getAbsolutePath();
         return new File(absPath, fs.prefixLength(absPath));
     }

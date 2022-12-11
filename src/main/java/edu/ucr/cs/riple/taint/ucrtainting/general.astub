@@ -64,6 +64,14 @@ public class System {
 	public static void loadLibrary(@RUntainted String libname);
 }
 
+public class ProcessBuilder {
+	public ProcessBuilder(List<@RUntainted String> command);
+	public ProcessBuilder(@RUntainted String... command);
+	public ProcessBuilder command(List<@RUntainted String> command);
+	public ProcessBuilder command(@RUntainted String... command);
+	public List<@RUntainted String> command();
+}
+
 public class Runtime {
 	public Process exec(@RUntainted String command, @RUntainted String[] envp, @RUntainted File dir) throws IOException;
 	public Process exec(@RUntainted String[] cmdarray, @RUntainted String[] envp) throws IOException;
@@ -77,7 +85,7 @@ public class Thread {
 	public static void sleep(long millis, int nanos) throws InterruptedException;
 	public static native void sleep(long millis) throws InterruptedException;
 }
-
+/*
 public class Class {
 	public static Class forName(@RUntainted Module module, @RUntainted String name);
 	public URL getResource(@RUntainted String name);
@@ -89,7 +97,7 @@ public class Class {
 	public Method getMethod(@RUntainted String name, @RUntainted Class<?>... parameterTypes) throws NoSuchMethodException, SecurityException;
 	public static Class forName(@RUntainted String name, boolean initialize, @RUntainted ClassLoader loader) throws ClassNotFoundException;
 }
-
+*/
 package javax.persistence;
 public class EntityManager {
 	public Query createQuery(@RUntainted CriteriaDelete deleteQuery);
