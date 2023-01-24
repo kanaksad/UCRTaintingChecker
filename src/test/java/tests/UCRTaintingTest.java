@@ -1,3 +1,5 @@
+package tests;
+
 import edu.ucr.cs.riple.taint.ucrtainting.UCRTaintingChecker;
 import java.io.File;
 import java.util.List;
@@ -20,6 +22,8 @@ public class UCRTaintingTest extends CheckerFrameworkPerDirectoryTest {
         "ucrtainting",
         "-Anomsgtext",
         "-Astubs=stubs/",
+        "-AannotatedPackages=foo.bar",
+        "-AenableCustomCheck=true",
         "-nowarn");
   }
 
