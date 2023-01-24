@@ -2,6 +2,7 @@ package edu.ucr.cs.riple.taint.ucrtainting;
 
 import org.checkerframework.common.basetype.BaseTypeChecker;
 import org.checkerframework.framework.qual.StubFiles;
+import org.checkerframework.framework.source.SupportedOptions;
 
 /**
  * This is the entry point for pluggable type-checking.
@@ -19,4 +20,16 @@ import org.checkerframework.framework.qual.StubFiles;
         "System.astub",
         "taintedMethods.astub"
 })
-public class UCRTaintingChecker extends BaseTypeChecker {}
+
+@SupportedOptions({
+        UCRTaintingChecker.ANNOTATED_PACKAGES,
+        UCRTaintingChecker.UNANNOTATED_SUB_PACKAGES,
+})
+
+public class UCRTaintingChecker extends BaseTypeChecker {
+
+        public static final String ANNOTATED_PACKAGES = "annotatedPackages";
+
+        public static final String UNANNOTATED_SUB_PACKAGES = "unannotatedSubPackages";
+
+}
