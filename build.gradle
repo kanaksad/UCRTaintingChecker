@@ -46,6 +46,7 @@ dependencies {
     // Testing
     testImplementation 'junit:junit:4.13.2'
     testImplementation "org.checkerframework:framework-test:${versions.checkerFramework}"
+    testImplementation 'org.apache.commons:commons-text:1.9'
 
     errorproneJavac "com.google.errorprone:javac:9+181-r4173-1"
 }
