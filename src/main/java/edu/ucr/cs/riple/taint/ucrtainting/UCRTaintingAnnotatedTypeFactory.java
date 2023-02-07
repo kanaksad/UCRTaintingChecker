@@ -13,7 +13,11 @@ public class UCRTaintingAnnotatedTypeFactory extends BaseAnnotatedTypeFactory {
     public UCRTaintingAnnotatedTypeFactory(BaseTypeChecker checker) {
         super(checker);
         ANNOTATED_PACKAGE_NAMES = checker.getOption(UCRTaintingChecker.ANNOTATED_PACKAGES);
+        // Loads the stub files here by side effecting subTypes and aJavaTypes
         postInit();
+        // can access stub file annotations here.
+        // maybe write a new procedure here to handle our handling of preprocessing unannotated codes
+        System.out.println(stubTypes);
     }
 
     @Override
@@ -36,6 +40,11 @@ public class UCRTaintingAnnotatedTypeFactory extends BaseAnnotatedTypeFactory {
         @Override
         public Void visitMethodInvocation(MethodInvocationTree node, AnnotatedTypeMirror annotatedTypeMirror) {
             return super.visitMethodInvocation(node, annotatedTypeMirror);
+        }
+
+        @Override
+        public Void visitNewClass(NewClassTree node, AnnotatedTypeMirror annotatedTypeMirror) {
+            return super.visitNewClass(node, annotatedTypeMirror);
         }
     }
 }
