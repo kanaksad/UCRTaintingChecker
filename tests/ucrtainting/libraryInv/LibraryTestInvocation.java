@@ -1,24 +1,23 @@
 import edu.ucr.cs.riple.taint.ucrtainting.qual.*;
-import org.apache.commons.lang3.text.WordUtils;
+import org.apache.commons.lang3.StringUtils;
 
 // Test taint passing through library method invocation
 class LibraryTestInvocation {
     void untaintedToUntainted(@RUntainted String y) {
-        @RUntainted String z = WordUtils.capitalize(y);
-        Number s = new Integer(3);
+        @RUntainted String z = StringUtils.capitalize(y);
     }
 
     void untaintedToTainted(@RUntainted String y) {
-        @RTainted String z = WordUtils.capitalize(y);
+        @RTainted String z = StringUtils.capitalize(y);
     }
 
     void taintedToUntainted(@RTainted String y) {
-        // :: error: assignment
-        @RUntainted String z = WordUtils.capitalize(y);
+        // :: error: (assignment)
+        @RUntainted String z = StringUtils.capitalize(y);
     }
 
     void taintedToTainted(@RTainted String y) {
-        @RTainted String z = WordUtils.capitalize(y);
+        @RTainted String z = StringUtils.capitalize(y);
     }
 
     int foo() {
