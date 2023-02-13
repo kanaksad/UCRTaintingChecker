@@ -4,7 +4,6 @@ import com.sun.source.tree.*;
 import edu.ucr.cs.riple.taint.ucrtainting.qual.RPolyTainted;
 import edu.ucr.cs.riple.taint.ucrtainting.qual.RTainted;
 import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
-import org.checkerframework.checker.initialization.qual.Initialized;
 import org.checkerframework.common.basetype.BaseAnnotatedTypeFactory;
 import org.checkerframework.common.basetype.BaseTypeChecker;
 import org.checkerframework.framework.type.AnnotatedTypeFactory;
@@ -12,22 +11,24 @@ import org.checkerframework.framework.type.AnnotatedTypeMirror;
 import org.checkerframework.framework.type.treeannotator.ListTreeAnnotator;
 import org.checkerframework.framework.type.treeannotator.TreeAnnotator;
 import org.checkerframework.javacutil.AnnotationBuilder;
+import org.checkerframework.javacutil.TreeUtils;
 
 import javax.lang.model.element.AnnotationMirror;
+import java.util.List;
 
 public class UCRTaintingAnnotatedTypeFactory extends BaseAnnotatedTypeFactory {
     private String ANNOTATED_PACKAGE_NAMES;
-    public final AnnotationMirror POLY;
-    public final AnnotationMirror UNTAINT;
-    public final AnnotationMirror TAINT;
+    public final AnnotationMirror RPOLYTAINTED;
+    public final AnnotationMirror RUNTAINTED;
+    public final AnnotationMirror RTAINTED;
     public UCRTaintingAnnotatedTypeFactory(BaseTypeChecker checker) {
         super(checker);
         ANNOTATED_PACKAGE_NAMES = checker.getOption(UCRTaintingChecker.ANNOTATED_PACKAGES);
         // Loads the stub files here by side effecting subTypes and aJavaTypes
         postInit();
-        POLY = AnnotationBuilder.fromClass(elements, RPolyTainted.class);
-        UNTAINT = AnnotationBuilder.fromClass(elements, RUntainted.class);
-        TAINT = AnnotationBuilder.fromClass(elements, RTainted.class);
+        RPOLYTAINTED = AnnotationBuilder.fromClass(elements, RPolyTainted.class);
+        RUNTAINTED = AnnotationBuilder.fromClass(elements, RUntainted.class);
+        RTAINTED = AnnotationBuilder.fromClass(elements, RTainted.class);
         // can access stub file annotations here.
         // maybe write a new procedure here to handle our handling of preprocessing unannotated codes
         System.out.println("After PostInit");
@@ -53,42 +54,55 @@ public class UCRTaintingAnnotatedTypeFactory extends BaseAnnotatedTypeFactory {
 
         @Override
         public Void visitMethodInvocation(MethodInvocationTree node, AnnotatedTypeMirror annotatedTypeMirror) {
-            boolean isAnyArgumentTainted=false;
-            for(ExpressionTree eTree:node.getArguments()) {
-                if(getAnnotatedTypeFromTypeTree(eTree).hasAnnotation(TAINT)) {
-                    isAnyArgumentTainted=true;
-                    break;
-                }
-            }
-            if(isAnyArgumentTainted==true) {
-                annotatedTypeMirror.replaceAnnotation(TAINT);
+            if(isReceiverOrArgumentTainted(node)) {
+                annotatedTypeMirror.replaceAnnotation(RTAINTED);
             } else {
-                annotatedTypeMirror.replaceAnnotation(UNTAINT);
+                annotatedTypeMirror.replaceAnnotation(RUNTAINTED);
             }
             return super.visitMethodInvocation(node, annotatedTypeMirror);
         }
         @Override
         public Void visitNewClass(NewClassTree node, AnnotatedTypeMirror annotatedTypeMirror) {
-//            boolean isAnyMemberTainted=false;
-//            for (ExpressionTree member : node.getArguments()) {
-//                if(getAnnotatedType(member).hasEffectiveAnnotation(Initialized.class)) {
-//                    if(getAnnotatedTypeFromTypeTree(member).hasAnnotation(TAINT)) {
-//                        isAnyMemberTainted=true;
-//                    }
-//                }
-//            }
-//            if(isAnyMemberTainted==true) {
-//                annotatedTypeMirror.replaceAnnotation(TAINT);
-//            } else {
-//                annotatedTypeMirror.replaceAnnotation(UNTAINT);
-//            }
+            if(isReceiverOrArgumentTainted(node)) {
+                annotatedTypeMirror.replaceAnnotation(RTAINTED);
+            }
+            else {
+                annotatedTypeMirror.replaceAnnotation(RUNTAINTED);
+            }
             return super.visitNewClass(node, annotatedTypeMirror);
         }
 
-        @Override
-        public Void visitMethod(MethodTree node, AnnotatedTypeMirror p) {
-            return super.visitMethod(node, p);
+        private boolean isReceiverOrArgumentTainted(ExpressionTree node) {
+            if (node instanceof NewClassTree || node instanceof MethodInvocationTree) {
+                boolean isAnyArgumentTainted=false;
+                boolean isReceiverTainted = false;
+                // Is the receiver tainted
+                ExpressionTree receiver = TreeUtils.getReceiverTree(node);
+                if(receiver != null && getAnnotatedType(receiver).hasAnnotation(RTAINTED)) {
+                    isReceiverTainted = true;
+                }
+                // Is any of the arguments tainted
+                List<? extends ExpressionTree> arguments = null;
+                if (node instanceof NewClassTree) {
+                    NewClassTree classTree = (NewClassTree) node;
+                    arguments = classTree.getArguments();
+                } else if (node instanceof MethodInvocationTree) {
+                    MethodInvocationTree methodInvocationTree = (MethodInvocationTree) node;
+                    arguments = methodInvocationTree.getArguments();
+                }
+                if(arguments != null) {
+                    for (ExpressionTree eTree : arguments) {
+                        if (getAnnotatedTypeFromTypeTree(eTree).hasAnnotation(RTAINTED)) {
+                            isAnyArgumentTainted = true;
+                            break;
+                        }
+                    }
+                    if (isAnyArgumentTainted || isReceiverTainted) {
+                        return true;
+                    }
+                }
+            }
+            return false;
         }
-
     }
 }
