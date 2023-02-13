@@ -1,6 +1,8 @@
 package edu.ucr.cs.riple.taint.ucrtainting;
 
-import com.sun.source.tree.*;
+import com.sun.source.tree.ExpressionTree;
+import com.sun.source.tree.MethodInvocationTree;
+import com.sun.source.tree.NewClassTree;
 import edu.ucr.cs.riple.taint.ucrtainting.qual.RPolyTainted;
 import edu.ucr.cs.riple.taint.ucrtainting.qual.RTainted;
 import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
@@ -54,6 +56,15 @@ public class UCRTaintingAnnotatedTypeFactory extends BaseAnnotatedTypeFactory {
 
         @Override
         public Void visitMethodInvocation(MethodInvocationTree node, AnnotatedTypeMirror annotatedTypeMirror) {
+            // TODO: 1. Look at the package name and handle according to annotated packages
+            // TODO: 2. List already annotated entities from stub files and handle accordingly
+            // About 1.
+            // One way to get the full qualified name could be like the following snippet
+            // ExpressionTree receiver = TreeUtils.getReceiverTree(node)
+            // ElementUtils.getType(TreeUtils.elementFromTree(receiver)).toString()
+            // About 2.
+            // `stubTypes` should have information about the annotated types available to us
+            // may need to tinker with this one to tackle this.
             if(isReceiverOrArgumentTainted(node)) {
                 annotatedTypeMirror.replaceAnnotation(RTAINTED);
             } else {
@@ -63,6 +74,15 @@ public class UCRTaintingAnnotatedTypeFactory extends BaseAnnotatedTypeFactory {
         }
         @Override
         public Void visitNewClass(NewClassTree node, AnnotatedTypeMirror annotatedTypeMirror) {
+            // TODO: 1. Look at the package name and handle according to annotated packages
+            // TODO: 2. List already annotated entities from stub files and handle accordingly
+            // About 1.
+            // One way to get the full qualified name could be like the following snippet
+            // ExpressionTree receiver = TreeUtils.getReceiverTree(node)
+            // ElementUtils.getType(TreeUtils.elementFromTree(receiver)).toString()
+            // About 2.
+            // `stubTypes` should have information about the annotated types available to us
+            // may need to tinker with this one to tackle this.
             if(isReceiverOrArgumentTainted(node)) {
                 annotatedTypeMirror.replaceAnnotation(RTAINTED);
             }
