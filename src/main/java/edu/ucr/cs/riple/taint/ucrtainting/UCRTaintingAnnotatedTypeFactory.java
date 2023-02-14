@@ -12,22 +12,28 @@ import org.checkerframework.framework.type.AnnotatedTypeMirror;
 import org.checkerframework.framework.type.treeannotator.ListTreeAnnotator;
 import org.checkerframework.framework.type.treeannotator.TreeAnnotator;
 import org.checkerframework.javacutil.AnnotationBuilder;
+import org.checkerframework.javacutil.ElementUtils;
+import org.checkerframework.javacutil.TreeUtils;
 
 import javax.lang.model.element.AnnotationMirror;
+import java.util.Arrays;
+import java.util.List;
 
 public class UCRTaintingAnnotatedTypeFactory extends BaseAnnotatedTypeFactory {
     private String ANNOTATED_PACKAGE_NAMES;
-    public final AnnotationMirror POLY;
-    public final AnnotationMirror UNTAINT;
-    public final AnnotationMirror TAINT;
+    private List<String> ANNOTATED_PACKAGE_NAMES_LIST;
+    public final AnnotationMirror RPOLY;
+    public final AnnotationMirror RUNTAINT;
+    public final AnnotationMirror RTAINT;
     public UCRTaintingAnnotatedTypeFactory(BaseTypeChecker checker) {
         super(checker);
         ANNOTATED_PACKAGE_NAMES = checker.getOption(UCRTaintingChecker.ANNOTATED_PACKAGES);
+        ANNOTATED_PACKAGE_NAMES_LIST= Arrays.asList(ANNOTATED_PACKAGE_NAMES.split(","));
         // Loads the stub files here by side effecting subTypes and aJavaTypes
         postInit();
-        POLY = AnnotationBuilder.fromClass(elements, RPolyTainted.class);
-        UNTAINT = AnnotationBuilder.fromClass(elements, RUntainted.class);
-        TAINT = AnnotationBuilder.fromClass(elements, RTainted.class);
+        RPOLY = AnnotationBuilder.fromClass(elements, RPolyTainted.class);
+        RUNTAINT = AnnotationBuilder.fromClass(elements, RUntainted.class);
+        RTAINT = AnnotationBuilder.fromClass(elements, RTainted.class);
         // can access stub file annotations here.
         // maybe write a new procedure here to handle our handling of preprocessing unannotated codes
         System.out.println("After PostInit");
@@ -53,17 +59,24 @@ public class UCRTaintingAnnotatedTypeFactory extends BaseAnnotatedTypeFactory {
 
         @Override
         public Void visitMethodInvocation(MethodInvocationTree node, AnnotatedTypeMirror annotatedTypeMirror) {
-            boolean isAnyArgumentTainted=false;
-            for(ExpressionTree eTree:node.getArguments()) {
-                if(getAnnotatedTypeFromTypeTree(eTree).hasAnnotation(TAINT)) {
-                    isAnyArgumentTainted=true;
-                    break;
+            boolean isAnnotatedPackage=false;
+            if(node!=null) {
+                ExpressionTree receiverTree= TreeUtils.getReceiverTree(node);
+                if(receiverTree!=null) {
+                    String packageName=ElementUtils.getType(TreeUtils.elementFromTree(receiverTree)).toString();
+                    System.out.println("visitMethodInvocation Node Package : "+ packageName);
+                    if(isAnnotatedPackage(packageName)) {
+                        System.out.println("Found Annotated Package: "+packageName+"  Skipping it");
+                        isAnnotatedPackage=true;
+                    }
                 }
             }
-            if(isAnyArgumentTainted==true) {
-                annotatedTypeMirror.replaceAnnotation(TAINT);
-            } else {
-                annotatedTypeMirror.replaceAnnotation(UNTAINT);
+            if(!isAnnotatedPackage) {
+                if(containsTaintedArgument(node)) {
+                    annotatedTypeMirror.replaceAnnotation(RTAINT);
+                } else {
+                    annotatedTypeMirror.replaceAnnotation(RUNTAINT);
+                }
             }
             return super.visitMethodInvocation(node, annotatedTypeMirror);
         }
@@ -72,15 +85,15 @@ public class UCRTaintingAnnotatedTypeFactory extends BaseAnnotatedTypeFactory {
 //            boolean isAnyMemberTainted=false;
 //            for (ExpressionTree member : node.getArguments()) {
 //                if(getAnnotatedType(member).hasEffectiveAnnotation(Initialized.class)) {
-//                    if(getAnnotatedTypeFromTypeTree(member).hasAnnotation(TAINT)) {
+//                    if(getAnnotatedTypeFromTypeTree(member).hasAnnotation(RTAINT)) {
 //                        isAnyMemberTainted=true;
 //                    }
 //                }
 //            }
 //            if(isAnyMemberTainted==true) {
-//                annotatedTypeMirror.replaceAnnotation(TAINT);
+//                annotatedTypeMirror.replaceAnnotation(RTAINT);
 //            } else {
-//                annotatedTypeMirror.replaceAnnotation(UNTAINT);
+//                annotatedTypeMirror.replaceAnnotation(RUNTAINT);
 //            }
             return super.visitNewClass(node, annotatedTypeMirror);
         }
@@ -90,5 +103,21 @@ public class UCRTaintingAnnotatedTypeFactory extends BaseAnnotatedTypeFactory {
             return super.visitMethod(node, p);
         }
 
+        public boolean isAnnotatedPackage(String packageName) {
+            for(String annotatedPackageName:ANNOTATED_PACKAGE_NAMES_LIST) {
+                if(packageName.startsWith(annotatedPackageName)) {
+                    return true;
+                }
+            }
+            return false;
+        }
+        public boolean containsTaintedArgument(MethodInvocationTree node) {
+            for(ExpressionTree eTree:node.getArguments()) {
+                if(getAnnotatedTypeFromTypeTree(eTree).hasAnnotation(RTAINT)) {
+                    return true;
+                }
+            }
+            return false;
+        }
     }
 }
