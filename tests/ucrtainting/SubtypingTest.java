@@ -8,5 +8,11 @@ class SubtypeTest {
         // :: error: assignment
         @RUntainted int c = x; // expected error on this line
         @RUntainted int d = y;
+
+        int z = foo();
+    }
+
+    int foo() {
+        return 0;
     }
 }

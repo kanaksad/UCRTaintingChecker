@@ -22,14 +22,11 @@ import org.checkerframework.framework.source.SupportedOptions;
 })
 
 @SupportedOptions({
-        UCRTaintingChecker.ANNOTATED_PACKAGES,
-        UCRTaintingChecker.UNANNOTATED_SUB_PACKAGES,
+        UCRTaintingChecker.ANNOTATED_PACKAGES
 })
 
 public class UCRTaintingChecker extends BaseTypeChecker {
 
         public static final String ANNOTATED_PACKAGES = "annotatedPackages";
-
-        public static final String UNANNOTATED_SUB_PACKAGES = "unannotatedSubPackages";
 
 }

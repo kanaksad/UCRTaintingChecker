@@ -20,11 +20,12 @@ public class UCRTaintingTest extends CheckerFrameworkPerDirectoryTest {
                 "ucrtainting",
                 "-Anomsgtext",
                 "-Astubs=stubs/",
+                "-AannotatedPackages=com.bar,com.sample,com.test",
                 "-nowarn");
     }
 
     @Parameters
     public static String[] getTestDirs() {
-        return new String[] {"ucrtainting"};
+        return new String[] {"ucrtainting/stubInv"};
     }
 }
