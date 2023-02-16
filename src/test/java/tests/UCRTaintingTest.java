@@ -26,6 +26,6 @@ public class UCRTaintingTest extends CheckerFrameworkPerDirectoryTest {
 
     @Parameters
     public static String[] getTestDirs() {
-        return new String[] {"ucrtainting/stubInv"};
+        return new String[] {"ucrtainting/stubInv","ucrtainting/libraryInv"};
     }
 }
