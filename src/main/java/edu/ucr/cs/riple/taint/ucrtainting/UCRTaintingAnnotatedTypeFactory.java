@@ -112,12 +112,18 @@ public class UCRTaintingAnnotatedTypeFactory extends BaseAnnotatedTypeFactory {
                 argumentsList=((NewClassTree) node).getArguments();
             }
             for(ExpressionTree eTree: argumentsList) {
+                if(eTree.getKind().toString().contains("LITERAL") || eTree.getKind().toString().equals("METHOD_INVOCATION") || eTree.getKind().toString().equals("PLUS")
+                || eTree.getKind().toString().equals("ARRAY_ACCESS") || eTree.getKind().toString().equals("NEW_CLASS") || eTree.getKind().toString().equals("MULTIPLY")
+                        || eTree.getKind().toString().equals("MINUS") || eTree.getKind().toString().equals("NEW_ARRAY") || eTree.getKind().toString().equals("TYPE_CAST")) {
+                    continue;
+                }
                 if(getAnnotatedTypeFromTypeTree(eTree).hasAnnotation(RTAINT)) {
                     return true;
                 }
             }
             return false;
         }
+        //check for static class here and enable this
         //        private boolean hasTaintedReceiver(ExpressionTree node) {
 //            if(node!=null) {
 //                ExpressionTree receiverTree= TreeUtils.getReceiverTree(node);
@@ -133,10 +139,15 @@ public class UCRTaintingAnnotatedTypeFactory extends BaseAnnotatedTypeFactory {
             if(node!=null) {
                 ExpressionTree receiverTree= TreeUtils.getReceiverTree(node);
                 if(receiverTree!=null) {
-                    String packageName=ElementUtils.getType(TreeUtils.elementFromTree(receiverTree)).toString();
-                    System.out.println("hasAnnotatedPackage Node Package : "+ packageName);
+                    String packageName="";
+                    try {
+                        packageName=ElementUtils.getType(TreeUtils.elementFromTree(receiverTree)).toString();
+                    } catch (Exception e) {
+//                        System.out.println("Exception caught!");
+                    }
+//                    System.out.println("hasAnnotatedPackage Node Package : "+ packageName);
                     if(isAnnotatedPackage(packageName)) {
-                        System.out.println("Found Annotated Package: "+packageName+"  Skipping it");
+//                        System.out.println("Found Annotated Package: "+packageName+"  Skipping it");
                         return true;
                     }
                 }
@@ -147,7 +158,7 @@ public class UCRTaintingAnnotatedTypeFactory extends BaseAnnotatedTypeFactory {
         private boolean isPresentInStub(ExpressionTree node) {
             if(node!=null) {
                 if(isFromStubFile(TreeUtils.elementFromTree(node))) {
-                    System.out.println("This is from stub: "+ElementUtils.getType(TreeUtils.elementFromTree(node)).toString());
+//                    System.out.println("This is from stub: "+ElementUtils.getType(TreeUtils.elementFromTree(node)).toString());
                     return true;
                 }
             }
