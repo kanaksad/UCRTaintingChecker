@@ -13,6 +13,7 @@ import org.checkerframework.framework.type.treeannotator.TreeAnnotator;
 import org.checkerframework.javacutil.AnnotationBuilder;
 import org.checkerframework.javacutil.ElementUtils;
 import org.checkerframework.javacutil.TreeUtils;
+import org.checkerframework.javacutil.UserError;
 
 import javax.lang.model.element.AnnotationMirror;
 import java.util.Arrays;
@@ -27,7 +28,19 @@ public class UCRTaintingAnnotatedTypeFactory extends BaseAnnotatedTypeFactory {
     public UCRTaintingAnnotatedTypeFactory(BaseTypeChecker checker) {
         super(checker);
         ANNOTATED_PACKAGE_NAMES = checker.getOption(UCRTaintingChecker.ANNOTATED_PACKAGES);
-        ANNOTATED_PACKAGE_NAMES_LIST= Arrays.asList(ANNOTATED_PACKAGE_NAMES.split(","));
+        if(ANNOTATED_PACKAGE_NAMES==null) {
+            if(checker.hasOption(UCRTaintingChecker.ANNOTATED_PACKAGES)) {
+                throw new UserError(
+                        "The value for the argument -AannotatedPackages"
+                                + " is null. Please pass this argument in the checker config, refer checker manual");
+            } else {
+                throw new UserError(
+                        "Cannot find this argument -AannotatedPackages"
+                                + " Please pass this argument in the checker config, refer checker manual");
+            }
+        } else {
+            ANNOTATED_PACKAGE_NAMES_LIST= Arrays.asList(ANNOTATED_PACKAGE_NAMES.split(","));
+        }
         // Loads the stub files here by side effecting subTypes and aJavaTypes
         postInit();
         RPOLY = AnnotationBuilder.fromClass(elements, RPolyTainted.class);
@@ -35,10 +48,9 @@ public class UCRTaintingAnnotatedTypeFactory extends BaseAnnotatedTypeFactory {
         RTAINT = AnnotationBuilder.fromClass(elements, RTainted.class);
         // can access stub file annotations here.
         // maybe write a new procedure here to handle our handling of preprocessing unannotated codes
-        System.out.println("After PostInit");
-        System.out.println(stubTypes);
+//        System.out.println("After PostInit");
+//        System.out.println(stubTypes);
     }
-
     @Override
     protected TreeAnnotator createTreeAnnotator() {
         return new ListTreeAnnotator(super.createTreeAnnotator(),
