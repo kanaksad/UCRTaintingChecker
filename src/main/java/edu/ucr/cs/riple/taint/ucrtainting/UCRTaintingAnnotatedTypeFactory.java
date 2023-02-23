@@ -24,6 +24,7 @@ import java.util.Set;
 
 public class UCRTaintingAnnotatedTypeFactory extends BaseAnnotatedTypeFactory {
     private String ANNOTATED_PACKAGE_NAMES;
+    private final boolean ENABLE_CUSTOM_CHECK;
     private List<String> ANNOTATED_PACKAGE_NAMES_LIST;
     public final AnnotationMirror RPOLY;
     public final AnnotationMirror RUNTAINT;
@@ -31,6 +32,7 @@ public class UCRTaintingAnnotatedTypeFactory extends BaseAnnotatedTypeFactory {
     public UCRTaintingAnnotatedTypeFactory(BaseTypeChecker checker) {
         super(checker);
         ANNOTATED_PACKAGE_NAMES = checker.getOption(UCRTaintingChecker.ANNOTATED_PACKAGES);
+        ENABLE_CUSTOM_CHECK = checker.getBooleanOption(UCRTaintingChecker.ENABLE_CUSTOM_CHECKER, true);
         if(ANNOTATED_PACKAGE_NAMES==null) {
             if(checker.hasOption(UCRTaintingChecker.ANNOTATED_PACKAGES)) {
                 throw new UserError(
@@ -73,22 +75,26 @@ public class UCRTaintingAnnotatedTypeFactory extends BaseAnnotatedTypeFactory {
 
         @Override
         public Void visitMethodInvocation(MethodInvocationTree node, AnnotatedTypeMirror annotatedTypeMirror) {
-            if(!hasAnnotatedPackage(node) && !isPresentInStub(node)) {
-                if(hasTaintedArgument(node) || hasTaintedReceiver(node)) {
-                    annotatedTypeMirror.replaceAnnotation(RTAINT);
-                } else {
-                    annotatedTypeMirror.replaceAnnotation(RUNTAINT);
+            if(ENABLE_CUSTOM_CHECK) {
+                if(!hasAnnotatedPackage(node) && !isPresentInStub(node)) {
+                    if(hasTaintedArgument(node) || hasTaintedReceiver(node)) {
+                        annotatedTypeMirror.replaceAnnotation(RTAINT);
+                    } else {
+                        annotatedTypeMirror.replaceAnnotation(RUNTAINT);
+                    }
                 }
             }
             return super.visitMethodInvocation(node, annotatedTypeMirror);
         }
         @Override
         public Void visitNewClass(NewClassTree node, AnnotatedTypeMirror annotatedTypeMirror) {
-            if(!hasAnnotatedPackage(node)) {
-                if(hasTaintedArgument(node) || hasTaintedReceiver(node)) {
-                    annotatedTypeMirror.replaceAnnotation(RTAINT);
-                } else {
-                    annotatedTypeMirror.replaceAnnotation(RUNTAINT);
+            if(ENABLE_CUSTOM_CHECK) {
+                if(!hasAnnotatedPackage(node)) {
+                    if(hasTaintedArgument(node) || hasTaintedReceiver(node)) {
+                        annotatedTypeMirror.replaceAnnotation(RTAINT);
+                    } else {
+                        annotatedTypeMirror.replaceAnnotation(RUNTAINT);
+                    }
                 }
             }
             return super.visitNewClass(node, annotatedTypeMirror);

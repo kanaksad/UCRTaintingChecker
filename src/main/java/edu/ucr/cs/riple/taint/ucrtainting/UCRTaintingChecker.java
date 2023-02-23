@@ -22,11 +22,13 @@ import org.checkerframework.framework.source.SupportedOptions;
 })
 
 @SupportedOptions({
-        UCRTaintingChecker.ANNOTATED_PACKAGES
+        UCRTaintingChecker.ANNOTATED_PACKAGES,
+        UCRTaintingChecker.ENABLE_CUSTOM_CHECKER
 })
 
 public class UCRTaintingChecker extends BaseTypeChecker {
 
         public static final String ANNOTATED_PACKAGES = "annotatedPackages";
+        public static final String ENABLE_CUSTOM_CHECKER = "enableCustomCheck";
 
 }
