@@ -115,12 +115,7 @@ public class UCRTaintingAnnotatedTypeFactory extends BaseAnnotatedTypeFactory {
                 argumentsList=((NewClassTree) node).getArguments();
             }
             for(ExpressionTree eTree: argumentsList) {
-                if(eTree.getKind().toString().contains("LITERAL") || eTree.getKind().toString().equals("METHOD_INVOCATION") || eTree.getKind().toString().equals("PLUS")
-                || eTree.getKind().toString().equals("ARRAY_ACCESS") || eTree.getKind().toString().equals("NEW_CLASS") || eTree.getKind().toString().equals("MULTIPLY")
-                        || eTree.getKind().toString().equals("MINUS") || eTree.getKind().toString().equals("NEW_ARRAY") || eTree.getKind().toString().equals("TYPE_CAST")) {
-                    continue;
-                }
-                if(getAnnotatedTypeFromTypeTree(eTree).hasAnnotation(RTAINT)) {
+                if(eTree.getKind() == Tree.Kind.IDENTIFIER && getAnnotatedTypeFromTypeTree(eTree).hasAnnotation(RTAINT)) {
                     return true;
                 }
             }
