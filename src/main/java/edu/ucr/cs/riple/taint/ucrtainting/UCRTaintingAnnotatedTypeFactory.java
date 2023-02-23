@@ -16,8 +16,11 @@ import org.checkerframework.javacutil.TreeUtils;
 import org.checkerframework.javacutil.UserError;
 
 import javax.lang.model.element.AnnotationMirror;
+import javax.lang.model.element.Element;
+import javax.lang.model.element.Modifier;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 public class UCRTaintingAnnotatedTypeFactory extends BaseAnnotatedTypeFactory {
     private String ANNOTATED_PACKAGE_NAMES;
@@ -71,7 +74,7 @@ public class UCRTaintingAnnotatedTypeFactory extends BaseAnnotatedTypeFactory {
         @Override
         public Void visitMethodInvocation(MethodInvocationTree node, AnnotatedTypeMirror annotatedTypeMirror) {
             if(!hasAnnotatedPackage(node) && !isPresentInStub(node)) {
-                if(hasTaintedArgument(node)) {
+                if(hasTaintedArgument(node) || hasTaintedReceiver(node)) {
                     annotatedTypeMirror.replaceAnnotation(RTAINT);
                 } else {
                     annotatedTypeMirror.replaceAnnotation(RUNTAINT);
@@ -82,7 +85,7 @@ public class UCRTaintingAnnotatedTypeFactory extends BaseAnnotatedTypeFactory {
         @Override
         public Void visitNewClass(NewClassTree node, AnnotatedTypeMirror annotatedTypeMirror) {
             if(!hasAnnotatedPackage(node)) {
-                if(hasTaintedArgument(node)) {
+                if(hasTaintedArgument(node) || hasTaintedReceiver(node)) {
                     annotatedTypeMirror.replaceAnnotation(RTAINT);
                 } else {
                     annotatedTypeMirror.replaceAnnotation(RUNTAINT);
@@ -123,18 +126,20 @@ public class UCRTaintingAnnotatedTypeFactory extends BaseAnnotatedTypeFactory {
             }
             return false;
         }
-        //check for static class here and enable this
-        //        private boolean hasTaintedReceiver(ExpressionTree node) {
-//            if(node!=null) {
-//                ExpressionTree receiverTree= TreeUtils.getReceiverTree(node);
-//                if(receiverTree!=null) {
-//                    if(getAnnotatedType(receiverTree).hasAnnotation(RTAINT)) {
-//                        return true;
-//                    }
-//                }
-//            }
-//            return false;
-//        }
+        private boolean hasTaintedReceiver(ExpressionTree node) {
+            if(node!=null) {
+                ExpressionTree receiverTree= TreeUtils.getReceiverTree(node);
+                if(receiverTree!=null) {
+                    Element element = TreeUtils.elementFromTree(node);
+                    Set<Modifier> modifiers = element.getModifiers();
+//                    System.out.println("Receiver class: "+receiverTree.toString()+ "  ISStatic: "+ modifiers.contains(Modifier.STATIC));
+                    if(!modifiers.contains(Modifier.STATIC) && getAnnotatedType(receiverTree).hasAnnotation(RTAINT)) {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
         private boolean hasAnnotatedPackage(ExpressionTree node) {
             if(node!=null) {
                 ExpressionTree receiverTree= TreeUtils.getReceiverTree(node);
