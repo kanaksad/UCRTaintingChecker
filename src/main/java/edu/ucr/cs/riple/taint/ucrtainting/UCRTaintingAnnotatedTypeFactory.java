@@ -21,16 +21,19 @@ import org.checkerframework.javacutil.TreeUtils;
 import org.checkerframework.javacutil.UserError;
 
 public class UCRTaintingAnnotatedTypeFactory extends BaseAnnotatedTypeFactory {
-  private String ANNOTATED_PACKAGE_NAMES;
   private final boolean ENABLE_CUSTOM_CHECK;
-  private List<String> ANNOTATED_PACKAGE_NAMES_LIST;
-  public final AnnotationMirror RUNTAINTED;
-  public final AnnotationMirror RTAINTED;
+
+  private final String ANNOTATED_PACKAGE_NAMES;
+  private final List<String> ANNOTATED_PACKAGE_NAMES_LIST;
+
+  private final AnnotationMirror RUNTAINTED;
+  private final AnnotationMirror RTAINTED;
 
   public UCRTaintingAnnotatedTypeFactory(BaseTypeChecker checker) {
     super(checker);
-    ANNOTATED_PACKAGE_NAMES = checker.getOption(UCRTaintingChecker.ANNOTATED_PACKAGES);
     ENABLE_CUSTOM_CHECK = checker.getBooleanOption(UCRTaintingChecker.ENABLE_CUSTOM_CHECKER, true);
+
+    ANNOTATED_PACKAGE_NAMES = checker.getOption(UCRTaintingChecker.ANNOTATED_PACKAGES);
     if (ANNOTATED_PACKAGE_NAMES == null) {
       if (checker.hasOption(UCRTaintingChecker.ANNOTATED_PACKAGES)) {
         throw new UserError(
@@ -44,7 +47,6 @@ public class UCRTaintingAnnotatedTypeFactory extends BaseAnnotatedTypeFactory {
     } else {
       ANNOTATED_PACKAGE_NAMES_LIST = Arrays.asList(ANNOTATED_PACKAGE_NAMES.split(","));
     }
-    // Loads the stub files here by side effecting subTypes and aJavaTypes
     postInit();
     RUNTAINTED = AnnotationBuilder.fromClass(elements, RUntainted.class);
     RTAINTED = AnnotationBuilder.fromClass(elements, RTainted.class);
@@ -58,7 +60,7 @@ public class UCRTaintingAnnotatedTypeFactory extends BaseAnnotatedTypeFactory {
   private class UCRTaintingTreeAnnotator extends TreeAnnotator {
 
     /**
-     * Create a new TreeAnnotator.
+     * UCRTaintingTreeAnnotator
      *
      * @param atypeFactory the type factory
      */
@@ -84,7 +86,7 @@ public class UCRTaintingAnnotatedTypeFactory extends BaseAnnotatedTypeFactory {
     @Override
     public Void visitNewClass(NewClassTree node, AnnotatedTypeMirror annotatedTypeMirror) {
       if (ENABLE_CUSTOM_CHECK) {
-        if (!hasAnnotatedPackage(node)) {
+        if (!hasAnnotatedPackage(node) && !isPresentInStub(node)) {
           if (hasTaintedArgument(node) || hasTaintedReceiver(node)) {
             annotatedTypeMirror.replaceAnnotation(RTAINTED);
           } else {
@@ -93,20 +95,6 @@ public class UCRTaintingAnnotatedTypeFactory extends BaseAnnotatedTypeFactory {
         }
       }
       return super.visitNewClass(node, annotatedTypeMirror);
-    }
-
-    @Override
-    public Void visitMethod(MethodTree node, AnnotatedTypeMirror p) {
-      return super.visitMethod(node, p);
-    }
-
-    private boolean isAnnotatedPackage(String packageName) {
-      for (String annotatedPackageName : ANNOTATED_PACKAGE_NAMES_LIST) {
-        if (packageName.startsWith(annotatedPackageName)) {
-          return true;
-        }
-      }
-      return false;
     }
 
     private boolean hasTaintedArgument(ExpressionTree node) {
@@ -152,6 +140,15 @@ public class UCRTaintingAnnotatedTypeFactory extends BaseAnnotatedTypeFactory {
           if (isAnnotatedPackage(packageName)) {
             return true;
           }
+        }
+      }
+      return false;
+    }
+
+    private boolean isAnnotatedPackage(String packageName) {
+      for (String annotatedPackageName : ANNOTATED_PACKAGE_NAMES_LIST) {
+        if (packageName.startsWith(annotatedPackageName)) {
+          return true;
         }
       }
       return false;
