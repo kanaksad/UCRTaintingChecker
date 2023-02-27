@@ -121,7 +121,7 @@ public class UCRTaintingAnnotatedTypeFactory extends BaseAnnotatedTypeFactory {
                 argumentsList=((NewClassTree) node).getArguments();
             }
             for(ExpressionTree eTree: argumentsList) {
-                if(eTree.getKind() == Tree.Kind.IDENTIFIER && getAnnotatedTypeFromTypeTree(eTree).hasAnnotation(RTAINT)) {
+                if(getAnnotatedType(eTree).hasAnnotation(RTAINT)) {
                     return true;
                 }
             }
