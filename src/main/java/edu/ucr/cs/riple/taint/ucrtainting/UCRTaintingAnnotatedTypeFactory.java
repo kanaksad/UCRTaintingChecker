@@ -90,7 +90,7 @@ public class UCRTaintingAnnotatedTypeFactory extends BaseAnnotatedTypeFactory {
         // in the stub files, then we don't need any custom handling for it.
         if (!hasAnnotatedPackage(node) && !isPresentInStub(node)) {
           if (hasTaintedArgument(node) || hasTaintedReceiver(node)) {
-            annotatedTypeMirror.replaceAnnotation(RTAINTED);
+            //              annotatedTypeMirror.replaceAnnotation(RTAINTED);
           } else {
             annotatedTypeMirror.replaceAnnotation(RUNTAINTED);
           }
@@ -114,7 +114,7 @@ public class UCRTaintingAnnotatedTypeFactory extends BaseAnnotatedTypeFactory {
         // in the stub files, then we don't need any custom handling for it.
         if (!hasAnnotatedPackage(node) && !isPresentInStub(node)) {
           if (hasTaintedArgument(node) || hasTaintedReceiver(node)) {
-            annotatedTypeMirror.replaceAnnotation(RTAINTED);
+            //            annotatedTypeMirror.replaceAnnotation(RTAINTED);
           } else {
             annotatedTypeMirror.replaceAnnotation(RUNTAINTED);
           }
