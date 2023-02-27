@@ -4,6 +4,7 @@ plugins {
 
 repositories {
     mavenCentral()
+    mavenLocal()
 }
 
 dependencies {
@@ -37,6 +38,16 @@ jar {
 
 compileJava {
     dependsOn copySources
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            groupId = 'edu.ucr.cs.riple.taint'
+            artifactId = 'ucrtainting-qual'
+            version = '0.1'
+        }
+    }
 }
 
 clean {
