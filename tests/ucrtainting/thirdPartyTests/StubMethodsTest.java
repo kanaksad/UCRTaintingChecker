@@ -1,6 +1,6 @@
 import edu.ucr.cs.riple.taint.ucrtainting.qual.*;
 
-class StubMethodsInvocation {
+class StubMethodsTest {
   @RTainted String taintedStr = "taintedData";
   @RUntainted String untaintedStr = "untaintedData";
 

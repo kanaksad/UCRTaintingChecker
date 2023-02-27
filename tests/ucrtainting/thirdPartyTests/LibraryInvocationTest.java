@@ -2,7 +2,7 @@ import edu.ucr.cs.riple.taint.ucrtainting.qual.*;
 import org.apache.commons.lang3.StringUtils;
 
 // Test taint passing through library method invocation
-class LibraryTestInvocation {
+class LibraryInvocationTest {
   void untaintedToUntainted(@RUntainted String y) {
     @RUntainted String z = StringUtils.capitalize(y);
   }
