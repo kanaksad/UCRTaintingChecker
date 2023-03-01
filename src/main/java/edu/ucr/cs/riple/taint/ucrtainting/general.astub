@@ -110,12 +110,6 @@ public class EntityManager {
 	public Query createQuery(@RUntainted String qlString);
 }
 
-package javax.persistence.criteria;
-public interface CriteriaBuilder {
-	@RPolyTainted CriteriaQuery<Object> createQuery(@RPolyTainted CriteriaBuilder this);
-	@RPolyTainted <T> CriteriaQuery<T> createQuery(@RPolyTainted Class<T> resultClass);
-}
-
 package io.micronaut.aop;
 public interface MethodInterceptor<T, R> extends Interceptor<T, R> {
 	R intercept(@RUntainted MethodInvocationContext<T, R> context);

@@ -10,12 +10,7 @@ import org.checkerframework.framework.source.SupportedOptions;
   "apache.commons.io.astub",
   "apache.commons.lang.astub",
   "general.astub",
-  "File.astub",
   "Files.astub",
-  "Path.astub",
-  "Paths.astub",
-  "System.astub",
-  "URL.astub",
   "taintedMethods.astub",
 })
 @SupportedOptions({UCRTaintingChecker.ANNOTATED_PACKAGES, UCRTaintingChecker.ENABLE_CUSTOM_CHECKER})

@@ -79,7 +79,6 @@ import java.util.stream.StreamSupport;
 
 import sun.nio.ch.FileChannelImpl;
 import sun.nio.fs.AbstractFileSystemProvider;
-import edu.ucr.cs.riple.taint.ucrtainting.qual.RPolyTainted;
 import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
@@ -643,7 +642,7 @@ public final class Files {
      *          installed, the {@link SecurityManager#checkWrite(String) checkWrite}
      *          method is invoked to check write access to the new file.
      */
-    public static @RPolyTainted Path createFile(@RPolyTainted Path path, FileAttribute<?>... attrs)
+    public static Path createFile(Path path, FileAttribute<?>... attrs)
         throws IOException
     {
         newByteChannel(path, DEFAULT_CREATE_OPTIONS, attrs).close();
@@ -685,7 +684,7 @@ public final class Files {
      *          installed, the {@link SecurityManager#checkWrite(String) checkWrite}
      *          method is invoked to check write access to the new directory.
      */
-    public static @RPolyTainted Path createDirectory(@RPolyTainted Path dir, FileAttribute<?>... attrs)
+    public static Path createDirectory(Path dir, FileAttribute<?>... attrs)
         throws IOException
     {
         provider(dir).createDirectory(dir, attrs);
@@ -906,7 +905,7 @@ public final class Files {
      *          installed, the {@link SecurityManager#checkWrite(String) checkWrite}
      *          method is invoked to check write access to the file.
      */
-    public static @RPolyTainted Path createTempFile(@RPolyTainted String prefix,
+    public static Path createTempFile(String prefix,
                                       String suffix,
                                       FileAttribute<?>... attrs)
         throws IOException
@@ -959,8 +958,8 @@ public final class Files {
      *          method is invoked to check write access when creating the
      *          directory.
      */
-    public static @RPolyTainted Path createTempDirectory(@RPolyTainted Path dir,
-                                           @RPolyTainted String prefix,
+    public static Path createTempDirectory(Path dir,
+                                           String prefix,
                                            FileAttribute<?>... attrs)
         throws IOException
     {
@@ -1001,7 +1000,7 @@ public final class Files {
      *          method is invoked to check write access when creating the
      *          directory.
      */
-    public static @RPolyTainted Path createTempDirectory(@RPolyTainted String prefix,
+    public static Path createTempDirectory(String prefix,
                                            FileAttribute<?>... attrs)
         throws IOException
     {
@@ -1414,7 +1413,7 @@ public final class Files {
      *          method is invoked to check write access to both the source and
      *          target file.
      */
-    public static @RPolyTainted Path move(@RUntainted Path source, @RUntainted Path target, CopyOption... options)
+    public static Path move(@RUntainted Path source, @RUntainted Path target, CopyOption... options)
         throws IOException
     {
         FileSystemProvider provider = provider(source);
