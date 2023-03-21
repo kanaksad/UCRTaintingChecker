@@ -1,4 +1,5 @@
 import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RPolyTainted ;
 
 package javax.servlet;
 
@@ -65,11 +66,11 @@ public class System {
 }
 
 public class ProcessBuilder {
-	public ProcessBuilder(List<@RUntainted String> command);
-	public ProcessBuilder(@RUntainted String... command);
-	public ProcessBuilder command(List<@RUntainted String> command);
-	public ProcessBuilder command(@RUntainted String... command);
-	public List<@RUntainted String> command();
+	public ProcessBuilder(List<@Untainted String> command);
+	public ProcessBuilder(@Untainted String... command);
+	public ProcessBuilder command(List<@Untainted String> command);
+	public ProcessBuilder command(@Untainted String... command);
+	public List<@Untainted String> command();
 }
 
 public class Runtime {
@@ -126,4 +127,18 @@ public interface DataInterceptor<T, R> {
      * @return The result
      */
     R intercept(RepositoryMethodKey methodKey, @RUntainted MethodInvocationContext<T, R> context);
+}
+
+package java.nio.file;
+public final class Files {
+    public static InputStream newInputStream(@RUntainted Path path, OpenOption... options) throws IOException;
+    public static Path createDirectories(@RUntainted Path dir, FileAttribute<?>... attrs) throws IOException;
+    public static void delete(@RUntainted Path path) throws IOException;
+    public static Path move(@RUntainted Path source, @RUntainted Path target, CopyOption... options) throws IOException;
+}
+
+package javax.persistence.criteria;
+public interface CriteriaBuilder {
+	@RPolyTainted CriteriaQuery<Object> createQuery(@RPolyTainted CriteriaBuilder this);
+	@RPolyTainted <T> CriteriaQuery<T> createQuery(@RPolyTainted Class<T> resultClass);
 }
