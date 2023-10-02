@@ -18,12 +18,9 @@ import org.checkerframework.javacutil.TreeUtils;
 /** This visitor directly annotates the element declaration to match the required type. */
 public class BasicVisitor extends SpecializedFixComputer {
 
-  protected final MethodReturnVisitor returnVisitor;
-
   public BasicVisitor(
       Context context, UCRTaintingAnnotatedTypeFactory factory, FixComputer fixComputer) {
     super(context, factory, fixComputer);
-    this.returnVisitor = new MethodReturnVisitor(context, typeFactory, fixComputer);
   }
 
   @Override
@@ -81,50 +78,7 @@ public class BasicVisitor extends SpecializedFixComputer {
     if (onMethod == null || !requireFix(pair) || pair.isMaxDepth()) {
       return Set.of();
     }
-    if (calledMethod.getParameters().isEmpty()) {
-      // no parameters, make untainted
-      return Set.of(onMethod);
-    }
-    JCTree decl = Utility.locateDeclaration(calledMethod, context);
-    if (decl == null || decl.getKind() != Tree.Kind.METHOD) {
-      return Set.of();
-    }
-    JCTree.JCMethodDecl methodDecl = (JCTree.JCMethodDecl) decl;
-    if (methodDecl.getBody() == null) {
-      return Set.of(onMethod);
-    }
-    Set<Fix> fixesOnDecl = new HashSet<>(methodDecl.accept(returnVisitor, pair));
-    Set<Fix> onActualParameters = new HashSet<>();
-    fixesOnDecl.forEach(
-        fix -> {
-          if (fix.isPoly()) {
-            PolyMethodLocation polyMethodLocation = (PolyMethodLocation) fix.location;
-            polyMethodLocation.arguments.forEach(
-                methodParameterLocation -> {
-                  int index = methodParameterLocation.index;
-                  if (methodParameterLocation.enclosingMethod.equals(calledMethod)) {
-                    AnnotatedTypeMirror formalParameterAnnotatedTypeMirror =
-                        typeFactory
-                            .getAnnotatedType(methodDecl.getParameters().get(index))
-                            .deepCopy(true);
-                    typeFactory.makeUntainted(formalParameterAnnotatedTypeMirror);
-                    AnnotatedTypeMirror foundParameterType =
-                        typeFactory.getAnnotatedType(node.getArguments().get(index));
-                    onActualParameters.addAll(
-                        node.getArguments()
-                            .get(index)
-                            .accept(
-                                fixComputer,
-                                FoundRequired.of(
-                                    foundParameterType,
-                                    formalParameterAnnotatedTypeMirror,
-                                    pair.depth)));
-                  }
-                });
-          }
-        });
-    fixesOnDecl.addAll(onActualParameters);
-    return fixesOnDecl;
+    return Set.of(onMethod);
   }
 
   @Override
