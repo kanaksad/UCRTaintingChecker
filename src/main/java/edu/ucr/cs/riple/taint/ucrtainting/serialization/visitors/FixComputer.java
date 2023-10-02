@@ -33,7 +33,6 @@ public class FixComputer extends SimpleTreeVisitor<Set<Fix>, FoundRequired> {
   protected final Types types;
   protected final BasicVisitor basicVisitor;
   protected final SpecializedFixComputer thirdPartyFixVisitor;
-  protected final SpecializedFixComputer methodTypeArgumentFixVisitor;
 
   public FixComputer(Context context, UCRTaintingAnnotatedTypeFactory factory) {
     this.context = context;
@@ -41,8 +40,6 @@ public class FixComputer extends SimpleTreeVisitor<Set<Fix>, FoundRequired> {
     this.types = Types.instance(context);
     this.basicVisitor = new BasicVisitor(context, factory, this);
     this.thirdPartyFixVisitor = new ThirdPartyFixVisitor(context, typeFactory, this);
-    this.methodTypeArgumentFixVisitor =
-        new MethodTypeArgumentFixVisitor(context, typeFactory, this);
   }
 
   @Override
@@ -92,10 +89,10 @@ public class FixComputer extends SimpleTreeVisitor<Set<Fix>, FoundRequired> {
       }
     }
     if (CollectionHandler.isToArrayWithTypeArgMethod(calledMethod, types)) {
-      return node.accept(new CollectionVisitor(context, typeFactory, this), pair);
+      return Set.of();
     }
     if (methodHasTypeArgs) {
-      return node.accept(methodTypeArgumentFixVisitor, pair);
+      return Set.of();
     }
     // check if the call is to a method defined in a third party library. If the method has a type
     // var return type and has a receiver, we should annotate the receiver.
@@ -106,7 +103,7 @@ public class FixComputer extends SimpleTreeVisitor<Set<Fix>, FoundRequired> {
     // receiver and leave the called method untouched. Annotation on the declaration on the type
     // argument, will be added on the method automatically.
     if (isTypeVar && hasReceiver) {
-      return node.accept(new ReceiverTypeArgumentFixVisitor(context, typeFactory, this), pair);
+      return Set.of();
     } else {
       return defaultAction(node, pair);
     }

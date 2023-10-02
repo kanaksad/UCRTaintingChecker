@@ -2,13 +2,10 @@ package edu.ucr.cs.riple.taint.ucrtainting.serialization.visitors;
 
 import com.sun.source.tree.*;
 import com.sun.tools.javac.code.Symbol;
-import com.sun.tools.javac.tree.JCTree;
 import com.sun.tools.javac.util.Context;
 import edu.ucr.cs.riple.taint.ucrtainting.FoundRequired;
 import edu.ucr.cs.riple.taint.ucrtainting.UCRTaintingAnnotatedTypeFactory;
 import edu.ucr.cs.riple.taint.ucrtainting.serialization.Fix;
-import edu.ucr.cs.riple.taint.ucrtainting.serialization.Utility;
-import edu.ucr.cs.riple.taint.ucrtainting.serialization.location.PolyMethodLocation;
 import java.util.HashSet;
 import java.util.Set;
 import javax.lang.model.element.Element;
