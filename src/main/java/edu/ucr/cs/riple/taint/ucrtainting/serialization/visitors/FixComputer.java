@@ -33,7 +33,6 @@ public class FixComputer extends SimpleTreeVisitor<Set<Fix>, FoundRequired> {
   protected final Types types;
   protected final BasicVisitor basicVisitor;
   protected final SpecializedFixComputer thirdPartyFixVisitor;
-  protected final SpecializedFixComputer methodTypeArgumentFixVisitor;
 
   public FixComputer(Context context, UCRTaintingAnnotatedTypeFactory factory) {
     this.context = context;
@@ -41,8 +40,6 @@ public class FixComputer extends SimpleTreeVisitor<Set<Fix>, FoundRequired> {
     this.types = Types.instance(context);
     this.basicVisitor = new BasicVisitor(context, factory, this);
     this.thirdPartyFixVisitor = new ThirdPartyFixVisitor(context, typeFactory, this);
-    this.methodTypeArgumentFixVisitor =
-        new MethodTypeArgumentFixVisitor(context, typeFactory, this);
   }
 
   @Override
