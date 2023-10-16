@@ -73,7 +73,7 @@ publishing {
     publications {
         maven(MavenPublication) {
             groupId = 'edu.ucr.cs.riple.taint'
-            artifactId = 'ucrtainting-checker'
+            artifactId = 'ucrtainting-checker-off'
             version = '0.1'
 
             from components.java

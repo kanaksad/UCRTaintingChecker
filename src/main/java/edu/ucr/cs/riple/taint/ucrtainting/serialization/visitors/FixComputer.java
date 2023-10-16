@@ -32,7 +32,6 @@ public class FixComputer extends SimpleTreeVisitor<Set<Fix>, FoundRequired> {
 
   protected final Types types;
   protected final BasicVisitor basicVisitor;
-  protected final SpecializedFixComputer thirdPartyFixVisitor;
   protected final SpecializedFixComputer methodTypeArgumentFixVisitor;
 
   public FixComputer(Context context, UCRTaintingAnnotatedTypeFactory factory) {
@@ -40,7 +39,6 @@ public class FixComputer extends SimpleTreeVisitor<Set<Fix>, FoundRequired> {
     this.typeFactory = factory;
     this.types = Types.instance(context);
     this.basicVisitor = new BasicVisitor(context, factory, this);
-    this.thirdPartyFixVisitor = new ThirdPartyFixVisitor(context, typeFactory, this);
     this.methodTypeArgumentFixVisitor =
         new MethodTypeArgumentFixVisitor(context, typeFactory, this);
   }
@@ -100,7 +98,7 @@ public class FixComputer extends SimpleTreeVisitor<Set<Fix>, FoundRequired> {
     // check if the call is to a method defined in a third party library. If the method has a type
     // var return type and has a receiver, we should annotate the receiver.
     if (!isInAnnotatedPackage && !(isTypeVar && hasReceiver)) {
-      return node.accept(thirdPartyFixVisitor, pair);
+      return Set.of();
     }
     // The method has a receiver, if the method contains a type argument, we should annotate the
     // receiver and leave the called method untouched. Annotation on the declaration on the type
