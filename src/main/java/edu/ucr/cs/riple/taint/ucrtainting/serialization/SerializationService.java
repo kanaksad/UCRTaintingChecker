@@ -16,6 +16,8 @@ import edu.ucr.cs.riple.taint.ucrtainting.serialization.visitors.FixComputer;
 import edu.ucr.cs.riple.taint.ucrtainting.serialization.visitors.TypeMatchVisitor;
 import java.util.Set;
 import javax.lang.model.element.Element;
+
+import org.checkerframework.framework.source.SourceVisitor;
 import org.checkerframework.javacutil.TreeUtils;
 
 /** This class is used to serialize the errors and the fixes for the errors. */
@@ -53,7 +55,7 @@ public class SerializationService {
    * @param messageKey the key of the error message
    * @param pair the pair of found and required annotated type mirrors.
    */
-  public void serializeError(Object source, String messageKey, FoundRequired pair) {
+  public void serializeError(Object source, String messageKey, FoundRequired pair, SourceVisitor<?, ?> state) {
     if (!serializer.isActive()) {
       return;
     }
@@ -65,7 +67,7 @@ public class SerializationService {
               : ImmutableSet.of();
     } catch (Exception e) {
       System.err.println(
-          "Error in computing required fixes: " + source + " " + messageKey + ", exception:" + e);
+          "Error in computing required fixes: " + source + " " + messageKey + ", exception:" + e + " " + state.getCurrentPath().getParentPath().getLeaf());
       resolvingFixes = ImmutableSet.of();
       e.printStackTrace();
     }

@@ -17,6 +17,8 @@ import org.checkerframework.framework.source.SupportedOptions;
 import org.checkerframework.framework.type.AnnotatedTypeMirror;
 import org.checkerframework.javacutil.TreeUtils;
 
+import java.util.Arrays;
+
 /** This is the entry point for pluggable type-checking. */
 @StubFiles({
   "stubs/Connection.astub",
@@ -50,6 +52,10 @@ public class UCRTaintingChecker extends AccumulationChecker {
   /** Serialization service for the checker. */
   private SerializationService serializationService;
 
+  public static Object sourceStatic;
+  public static String messageKeyStatic;
+  public static Object[] argsStatic;
+
   private Types types;
   private UCRTaintingAnnotatedTypeFactory typeFactory;
   private boolean serialize = true;
@@ -68,12 +74,18 @@ public class UCRTaintingChecker extends AccumulationChecker {
 
   @Override
   public void reportError(Object source, @CompilerMessageKey String messageKey, Object... args) {
+    sourceStatic = source;
+    messageKeyStatic = messageKey;
+    argsStatic = args;
+    System.err.println("Source: " + source);
+    System.err.println("Error Type: " + source);
+    System.err.println("Args: " + Arrays.toString(args));
     pair = pair == null ? retrievePair(messageKey, args) : pair;
     if (shouldBeSkipped(source, messageKey, pair)) {
       return;
     }
     if (serialize) {
-      this.serializationService.serializeError(source, messageKey, pair);
+      this.serializationService.serializeError(source, messageKey, pair, visitor);
     }
     args[args.length - 1] = args[args.length - 1].toString() + ", index: " + ++index;
     super.reportError(source, messageKey, args);
@@ -84,7 +96,7 @@ public class UCRTaintingChecker extends AccumulationChecker {
     if (shouldBeSkipped(source, messageKey, pair)) {
       return;
     }
-    this.serializationService.serializeError(source, messageKey, pair);
+    this.serializationService.serializeError(source, messageKey, pair, visitor);
     this.serialize = false;
     this.pair = pair;
     this.reportError(source, messageKey, args);
