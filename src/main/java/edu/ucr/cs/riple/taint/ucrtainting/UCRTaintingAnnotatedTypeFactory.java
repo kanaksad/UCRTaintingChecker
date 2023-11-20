@@ -535,6 +535,9 @@ public class UCRTaintingAnnotatedTypeFactory extends AccumulationAnnotatedTypeFa
    * @param type The given type.
    */
   public void makeUntainted(AnnotatedTypeMirror type) {
+    if (type instanceof AnnotatedTypeMirror.AnnotatedExecutableType) {
+      System.out.println();
+    }
     type.replaceAnnotation(rUntainted);
   }
 

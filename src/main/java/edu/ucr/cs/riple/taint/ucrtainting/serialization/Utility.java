@@ -342,12 +342,14 @@ public class Utility {
     if (symbol == null) {
       return false;
     }
-    Symbol.ClassSymbol encClass =
-        symbol instanceof Symbol.ClassSymbol ? (Symbol.ClassSymbol) symbol : symbol.enclClass();
-    if (encClass == null) {
-      return false;
+    Symbol toCheck = symbol;
+    if (symbol instanceof Symbol.VarSymbol) {
+      toCheck = symbol.type.tsym;
     }
-    String packageName = encClass.packge().toString();
+    if (symbol instanceof Symbol.MethodSymbol) {
+      toCheck = symbol.enclClass();
+    }
+    String packageName = toCheck.packge().toString();
     if (packageName.equals("unnamed package")) {
       packageName = "";
     }
@@ -355,6 +357,8 @@ public class Utility {
     if (!fromAnnotatedPackage) {
       return false;
     }
+    Symbol.ClassSymbol encClass =
+        (symbol instanceof Symbol.ClassSymbol) ? (Symbol.ClassSymbol) symbol : symbol.enclClass();
     URI pathInURI =
         encClass.sourcefile != null
             ? encClass.sourcefile.toUri()

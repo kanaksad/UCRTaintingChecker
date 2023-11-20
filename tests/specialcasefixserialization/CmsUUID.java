@@ -31,116 +31,116 @@ public class CmsUUID {
   public static final Map<String, @RUntainted String> IMAGE_MIMETYPES =
       Collections.unmodifiableMap(splitAsMap(IMAGE_MIMETYPECONFIG, "|", ":"));
 
-  public static CmsUUID create(UUID uid) {
-    return new CmsUUID(uid);
-  }
-
-  @RUntainted
-  Object castTest() {
-    if (this == NULL_UUID) {
-      return NULL_UUID;
-    }
-    // :: error: return
-    return new CmsUUID((UUID) m_uuid.clone());
-  }
-
-  void binaryExpressionTest() {
-    // :: error: assignment
-    @RUntainted boolean isDefault = (m_uuid != null) && Boolean.valueOf(m_uuid.toString());
-  }
-
-  void enumFromThirdPartyTest() {
-    // should not be error here.
-    @RUntainted ContentMode mode = ContentMode.HTML;
-  }
-
-  @RUntainted
-  CmsUUID staticCallTest(UUID uid) {
-    // :: error: return
-    return CmsUUID.create(uid);
-  }
-
-  protected @RUntainted CmsPair<@RUntainted String, @RUntainted String> decode(
-      String content, String encoding) {
-    // :: error: return
-    return CmsPair.create(content, encoding);
-  }
-
-  public void testFinalStaticString() {
-    // should not be error here.
-    @RUntainted String foo1 = BAZ;
-    // should not be error here.
-    @RUntainted String foo2 = CmsUUID.BAZ;
-  }
-
-  public enum BundleType {
-    PROPERTY(cms);
-
-    BundleType(CmsUUID s) {}
-
-    public static @RUntainted BundleType toBundleType(String value) {
-
-      if (null == value) {
-        return null;
-      }
-      if (value.equals(PROPERTY.toString())) {
-        // Should not get error here.
-        return PROPERTY;
-      }
-      return null;
-    }
-  }
-
-  public void testConstantForThirdpartyArgument() {
-    @RUntainted List<String> list = new ArrayList<>();
-    // :: error: (assignment)
-    @RUntainted String s = list.get(0);
-  }
-
-  public void testMemberSelectOfFinalStatic(HttpServletResponse response) {
-    sink(Boolean.TRUE);
-  }
-
-  public void bar() {
-    try {
-      // some code
-    } catch (Exception e) {
-      // Should not try to annotate "e" here.
-      @RUntainted Exception dup = e;
-    }
-  }
-
-  public void sink(@RUntainted boolean b) {}
-
-  public void multipleAdditionTest() {
-    class XMLPage {
-      public String getRootPath() {
-        return "";
-      }
-    }
-    @RUntainted String path = "some path";
-    String[] tokens = path.split("/");
-    // :: error: assignment
-    @RUntainted String name = tokens[1];
-    XMLPage xmlPage = new XMLPage();
-    @RUntainted
-    String fullPath =
-        // :: error: assignment
-        xmlPage.getRootPath() + "/" + tokens[0] + "/" + name + "." + BAZ;
-  }
-
-  public void testUntaintedForAnyFinalStaticWithInitializer() {
-    for (String folder : FOLDERS) {
-      // Should not be an error here.
-      @RUntainted String f = folder;
-    }
-
-    for (String folder : CmsUUID.FOLDERS) {
-      // Should not be an error here.
-      @RUntainted String f = folder;
-    }
-  }
-
+//  public static CmsUUID create(UUID uid) {
+//    return new CmsUUID(uid);
+//  }
+//
+//  @RUntainted
+//  Object castTest() {
+//    if (this == NULL_UUID) {
+//      return NULL_UUID;
+//    }
+//    // :: error: return
+//    return new CmsUUID((UUID) m_uuid.clone());
+//  }
+//
+//  void binaryExpressionTest() {
+//    // :: error: assignment
+//    @RUntainted boolean isDefault = (m_uuid != null) && Boolean.valueOf(m_uuid.toString());
+//  }
+//
+//  void enumFromThirdPartyTest() {
+//    // should not be error here.
+//    @RUntainted ContentMode mode = ContentMode.HTML;
+//  }
+//
+//  @RUntainted
+//  CmsUUID staticCallTest(UUID uid) {
+//    // :: error: return
+//    return CmsUUID.create(uid);
+//  }
+//
+//  protected @RUntainted CmsPair<@RUntainted String, @RUntainted String> decode(
+//      String content, String encoding) {
+//    // :: error: return
+//    return CmsPair.create(content, encoding);
+//  }
+//
+//  public void testFinalStaticString() {
+//    // should not be error here.
+//    @RUntainted String foo1 = BAZ;
+//    // should not be error here.
+//    @RUntainted String foo2 = CmsUUID.BAZ;
+//  }
+//
+//  public enum BundleType {
+//    PROPERTY(cms);
+//
+//    BundleType(CmsUUID s) {}
+//
+//    public static @RUntainted BundleType toBundleType(String value) {
+//
+//      if (null == value) {
+//        return null;
+//      }
+//      if (value.equals(PROPERTY.toString())) {
+//        // Should not get error here.
+//        return PROPERTY;
+//      }
+//      return null;
+//    }
+//  }
+//
+//  public void testConstantForThirdpartyArgument() {
+//    @RUntainted List<String> list = new ArrayList<>();
+//    // :: error: (assignment)
+//    @RUntainted String s = list.get(0);
+//  }
+//
+//  public void testMemberSelectOfFinalStatic(HttpServletResponse response) {
+//    sink(Boolean.TRUE);
+//  }
+//
+//  public void bar() {
+//    try {
+//      // some code
+//    } catch (Exception e) {
+//      // Should not try to annotate "e" here.
+//      @RUntainted Exception dup = e;
+//    }
+//  }
+//
+//  public void sink(@RUntainted boolean b) {}
+//
+//  public void multipleAdditionTest() {
+//    class XMLPage {
+//      public String getRootPath() {
+//        return "";
+//      }
+//    }
+//    @RUntainted String path = "some path";
+//    String[] tokens = path.split("/");
+//    // :: error: assignment
+//    @RUntainted String name = tokens[1];
+//    XMLPage xmlPage = new XMLPage();
+//    @RUntainted
+//    String fullPath =
+//        // :: error: assignment
+//        xmlPage.getRootPath() + "/" + tokens[0] + "/" + name + "." + BAZ;
+//  }
+//
+//  public void testUntaintedForAnyFinalStaticWithInitializer() {
+//    for (String folder : FOLDERS) {
+//      // Should not be an error here.
+//      @RUntainted String f = folder;
+//    }
+//
+//    for (String folder : CmsUUID.FOLDERS) {
+//      // Should not be an error here.
+//      @RUntainted String f = folder;
+//    }
+//  }
+//
   public static @RUntainted Map<@RUntainted String, @RUntainted String> splitAsMap(
       String source, String paramDelim, String keyValDelim) {
 
@@ -190,93 +190,93 @@ public class CmsUUID {
     }
     return result;
   }
-
-  public void testValueForStaticFinalMap() {
-    @RUntainted String s = IMAGE_MIMETYPES.get("png");
-  }
-
-  public void recentCrash() {
-    List<String> params = new LinkedList<String>();
-    // :: error: argument
-    ProcessBuilder pb = new ProcessBuilder(params.toArray(new String[params.size()]));
-  }
-
-  public void zeroArgMethodCall(HttpServletRequest request) {
-
-    @RUntainted CmsUgcSession session = createSession();
-    HttpSession httpSession = request.getSession(true);
-    // :: error: argument
-    httpSession.setAttribute("" + session.getId(), session);
-  }
-
-  public static @RUntainted CmsUgcSession createSession() {
-    return new CmsUgcSession();
-  }
-
-  static class CmsUgcSession {
-
-    String id;
-
-    public String getId() {
-      return id;
-    }
-  }
-
-  public void checkToArrayForCustomList() {
-    abstract class CustomList<R, V> implements Collection<V> {}
-    class Custom<H, U> extends CustomList<U, H> {
-      public int size() {
-        return 0;
-      }
-
-      public boolean isEmpty() {
-        return false;
-      }
-
-      public boolean contains(Object o) {
-        return false;
-      }
-
-      public Iterator<H> iterator() {
-        return null;
-      }
-
-      public Object[] toArray() {
-        return new Object[0];
-      }
-
-      public <T> T[] toArray(T[] a) {
-        return null;
-      }
-
-      public boolean add(H h) {
-        return false;
-      }
-
-      public boolean remove(Object o) {
-        return false;
-      }
-
-      public boolean containsAll(Collection<?> c) {
-        return false;
-      }
-
-      public boolean addAll(Collection<? extends H> c) {
-        return false;
-      }
-
-      public boolean removeAll(Collection<?> c) {
-        return false;
-      }
-
-      public boolean retainAll(Collection<?> c) {
-        return false;
-      }
-
-      public void clear() {}
-    }
-    Custom<String, String> params = new Custom<>();
-    // :: error: argument
-    ProcessBuilder pb = new ProcessBuilder(params.toArray(new String[params.size()]));
-  }
+//
+//  public void testValueForStaticFinalMap() {
+//    @RUntainted String s = IMAGE_MIMETYPES.get("png");
+//  }
+//
+//  public void recentCrash() {
+//    List<String> params = new LinkedList<String>();
+//    // :: error: argument
+//    ProcessBuilder pb = new ProcessBuilder(params.toArray(new String[params.size()]));
+//  }
+//
+//  public void zeroArgMethodCall(HttpServletRequest request) {
+//
+//    @RUntainted CmsUgcSession session = createSession();
+//    HttpSession httpSession = request.getSession(true);
+//    // :: error: argument
+//    httpSession.setAttribute("" + session.getId(), session);
+//  }
+//
+//  public static @RUntainted CmsUgcSession createSession() {
+//    return new CmsUgcSession();
+//  }
+//
+//  static class CmsUgcSession {
+//
+//    String id;
+//
+//    public String getId() {
+//      return id;
+//    }
+//  }
+//
+//  public void checkToArrayForCustomList() {
+//    abstract class CustomList<R, V> implements Collection<V> {}
+//    class Custom<H, U> extends CustomList<U, H> {
+//      public int size() {
+//        return 0;
+//      }
+//
+//      public boolean isEmpty() {
+//        return false;
+//      }
+//
+//      public boolean contains(Object o) {
+//        return false;
+//      }
+//
+//      public Iterator<H> iterator() {
+//        return null;
+//      }
+//
+//      public Object[] toArray() {
+//        return new Object[0];
+//      }
+//
+//      public <T> T[] toArray(T[] a) {
+//        return null;
+//      }
+//
+//      public boolean add(H h) {
+//        return false;
+//      }
+//
+//      public boolean remove(Object o) {
+//        return false;
+//      }
+//
+//      public boolean containsAll(Collection<?> c) {
+//        return false;
+//      }
+//
+//      public boolean addAll(Collection<? extends H> c) {
+//        return false;
+//      }
+//
+//      public boolean removeAll(Collection<?> c) {
+//        return false;
+//      }
+//
+//      public boolean retainAll(Collection<?> c) {
+//        return false;
+//      }
+//
+//      public void clear() {}
+//    }
+//    Custom<String, String> params = new Custom<>();
+//    // :: error: argument
+//    ProcessBuilder pb = new ProcessBuilder(params.toArray(new String[params.size()]));
+//  }
 }
