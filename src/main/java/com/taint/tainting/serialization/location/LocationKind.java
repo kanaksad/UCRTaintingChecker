@@ -1,0 +1,34 @@
+package com.taint.tainting.serialization.location;
+
+public enum LocationKind {
+  FIELD,
+  PARAMETER,
+  LOCAL_VARIABLE,
+  METHOD,
+  CLASS_DECLARATION,
+  POLY_METHOD;
+
+  public boolean isField() {
+    return this == FIELD;
+  }
+
+  public boolean isParameter() {
+    return this == PARAMETER;
+  }
+
+  public boolean isMethod() {
+    return this == METHOD;
+  }
+
+  public boolean isPoly() {
+    return this == POLY_METHOD;
+  }
+
+  public boolean isLocalVariable() {
+    return this == LOCAL_VARIABLE;
+  }
+
+  public boolean isClassDeclaration() {
+    return this == CLASS_DECLARATION;
+  }
+}
