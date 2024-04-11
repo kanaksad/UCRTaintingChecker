@@ -1,6 +1,5 @@
 package com.taint.tainting.qual;
 
-import com.taint.tainting.XTaintingChecker;
 import java.lang.annotation.*;
 import org.checkerframework.framework.qual.DefaultQualifierInHierarchy;
 import org.checkerframework.framework.qual.SubtypeOf;
@@ -8,8 +7,6 @@ import org.checkerframework.framework.qual.SubtypeOf;
 /**
  * Denotes a possibly-tainted value: at run time, the value might be tainted or might be untainted.
  *
- * @see RUntainted
- * @see XTaintingChecker
  * @checker_framework.manual #tainting-checker Tainting Checker
  */
 @Documented

@@ -22,7 +22,7 @@ task copySources(type: Copy) {
 
     from files('../src/main/java')
     // Replace the path below with your actual path.
-    include '**/checker/qual/**'
+    include '**/com/taint/tainting/qual/**'
 
     // Make files read only.
     fileMode(0444)
@@ -53,7 +53,6 @@ publishing {
             groupId = 'com.example.x'
             artifactId = 'checker-qual'
             version = '0.1'
-
             from components.java
         }
     }
