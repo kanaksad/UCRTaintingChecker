@@ -7,7 +7,6 @@ import com.sun.source.tree.NewClassTree;
 import com.sun.source.tree.VariableTree;
 import com.sun.tools.javac.util.Context;
 import com.taint.tainting.XTaintingAnnotatedTypeFactory;
-
 import javax.lang.model.element.Element;
 import org.checkerframework.framework.type.AnnotatedTypeMirror;
 

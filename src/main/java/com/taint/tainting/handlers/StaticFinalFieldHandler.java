@@ -6,7 +6,6 @@ import com.sun.source.tree.VariableTree;
 import com.sun.tools.javac.code.Symbol;
 import com.taint.tainting.XTaintingAnnotatedTypeFactory;
 import com.taint.tainting.serialization.Utility;
-
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;

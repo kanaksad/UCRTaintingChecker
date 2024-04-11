@@ -9,7 +9,6 @@ import com.sun.tools.javac.util.Context;
 import com.taint.tainting.handlers.Handler;
 import com.taint.tainting.qual.RTainted;
 import com.taint.tainting.serialization.Utility;
-
 import java.util.List;
 import javax.lang.model.element.ElementKind;
 import org.checkerframework.framework.type.AnnotatedTypeMirror;
@@ -29,7 +28,7 @@ public class XTaintingTreeAnnotator extends TreeAnnotator {
    * @param context
    */
   protected XTaintingTreeAnnotator(
-          XTaintingAnnotatedTypeFactory typeFactory, Handler handler, Context context) {
+      XTaintingAnnotatedTypeFactory typeFactory, Handler handler, Context context) {
     super(typeFactory);
     this.typeFactory = typeFactory;
     this.handler = handler;

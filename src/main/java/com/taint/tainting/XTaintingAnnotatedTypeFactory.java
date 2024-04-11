@@ -7,12 +7,12 @@ import com.sun.tools.javac.code.Symbol;
 import com.sun.tools.javac.code.Type;
 import com.sun.tools.javac.processing.JavacProcessingEnvironment;
 import com.sun.tools.javac.util.Context;
+import com.taint.tainting.handlers.CompositHandler;
+import com.taint.tainting.handlers.Handler;
 import com.taint.tainting.qual.RPolyTainted;
 import com.taint.tainting.qual.RPossiblyValidated;
 import com.taint.tainting.qual.RTainted;
 import com.taint.tainting.qual.RUntainted;
-import com.taint.tainting.handlers.CompositHandler;
-import com.taint.tainting.handlers.Handler;
 import com.taint.tainting.serialization.Utility;
 import java.lang.annotation.Annotation;
 import java.nio.file.Path;
@@ -453,12 +453,11 @@ public class XTaintingAnnotatedTypeFactory extends AccumulationAnnotatedTypeFact
   }
 
   /**
-   * Checks if the given annotated type mirror has the {@link
-   * RPolyTainted} annotation.
+   * Checks if the given annotated type mirror has the {@link RPolyTainted} annotation.
    *
    * @param type The given annotated type mirror
-   * @return True if the given annotated type mirror has the {@link
-   *     RPolyTainted} annotation, false otherwise.
+   * @return True if the given annotated type mirror has the {@link RPolyTainted} annotation, false
+   *     otherwise.
    */
   public boolean hasPolyTaintedAnnotation(AnnotatedTypeMirror type) {
     type = getTargetType(type);

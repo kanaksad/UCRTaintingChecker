@@ -16,7 +16,7 @@ public class PolyMethodVisitor extends SpecializedFixComputer {
   private final boolean activation;
 
   public PolyMethodVisitor(
-          XTaintingAnnotatedTypeFactory typeFactory, FixComputer fixComputer, Context context) {
+      XTaintingAnnotatedTypeFactory typeFactory, FixComputer fixComputer, Context context) {
     super(typeFactory, fixComputer, context);
     this.activation = typeFactory.polyTaintInferenceEnabled();
   }

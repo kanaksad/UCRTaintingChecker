@@ -4,7 +4,6 @@ import com.sun.source.tree.MethodInvocationTree;
 import com.sun.tools.javac.code.Symbol;
 import com.taint.tainting.qual.RThis;
 import com.taint.tainting.serialization.Utility;
-
 import java.util.Collections;
 import java.util.List;
 import javax.lang.model.type.TypeKind;

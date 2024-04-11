@@ -12,12 +12,11 @@ import com.sun.tools.javac.tree.JCTree;
 import com.sun.tools.javac.util.Context;
 import com.taint.tainting.FoundRequired;
 import com.taint.tainting.XTaintingAnnotatedTypeFactory;
+import com.taint.tainting.handlers.CollectionHandler;
 import com.taint.tainting.qual.RTainted;
 import com.taint.tainting.serialization.Fix;
 import com.taint.tainting.serialization.Serializer;
 import com.taint.tainting.serialization.Utility;
-import com.taint.tainting.handlers.CollectionHandler;
-
 import java.util.Set;
 import javax.lang.model.element.Element;
 import org.checkerframework.framework.type.AnnotatedTypeMirror;

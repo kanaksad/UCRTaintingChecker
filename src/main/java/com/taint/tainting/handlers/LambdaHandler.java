@@ -2,7 +2,6 @@ package com.taint.tainting.handlers;
 
 import com.sun.tools.javac.code.Symbol;
 import com.taint.tainting.XTaintingAnnotatedTypeFactory;
-
 import java.util.HashSet;
 import java.util.Set;
 import javax.lang.model.element.Element;

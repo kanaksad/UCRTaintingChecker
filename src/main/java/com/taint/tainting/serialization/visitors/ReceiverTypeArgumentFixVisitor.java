@@ -38,7 +38,7 @@ public class ReceiverTypeArgumentFixVisitor extends SpecializedFixComputer {
   protected List<ExpressionTree> receivers;
 
   public ReceiverTypeArgumentFixVisitor(
-          XTaintingAnnotatedTypeFactory factory, FixComputer fixComputer, Context context) {
+      XTaintingAnnotatedTypeFactory factory, FixComputer fixComputer, Context context) {
     super(factory, fixComputer, context);
   }
 

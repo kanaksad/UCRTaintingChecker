@@ -2,7 +2,6 @@ package com.taint.tainting.handlers;
 
 import com.taint.tainting.XTaintingAnnotatedTypeFactory;
 import com.taint.tainting.serialization.Utility;
-
 import javax.lang.model.element.Element;
 import org.checkerframework.framework.type.AnnotatedTypeMirror;
 

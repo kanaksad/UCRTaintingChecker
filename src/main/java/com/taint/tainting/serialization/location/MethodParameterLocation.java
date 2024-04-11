@@ -3,7 +3,6 @@ package com.taint.tainting.serialization.location;
 import com.google.common.base.Preconditions;
 import com.sun.tools.javac.code.Symbol;
 import com.taint.tainting.serialization.visitors.LocationVisitor;
-
 import java.util.Objects;
 import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.Modifier;

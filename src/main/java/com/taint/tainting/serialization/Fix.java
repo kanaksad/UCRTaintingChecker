@@ -2,7 +2,6 @@ package com.taint.tainting.serialization;
 
 import com.taint.tainting.serialization.location.SymbolLocation;
 import com.taint.tainting.serialization.visitors.LocationToJsonVisitor;
-
 import java.util.Objects;
 import org.json.JSONObject;
 

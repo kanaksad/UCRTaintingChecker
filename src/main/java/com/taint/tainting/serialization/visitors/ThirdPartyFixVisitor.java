@@ -24,7 +24,7 @@ public class ThirdPartyFixVisitor extends SpecializedFixComputer {
   private final boolean activation;
 
   public ThirdPartyFixVisitor(
-          XTaintingAnnotatedTypeFactory factory, FixComputer fixComputer, Context context) {
+      XTaintingAnnotatedTypeFactory factory, FixComputer fixComputer, Context context) {
     super(factory, fixComputer, context);
     this.activation = factory.libraryCheckIsEnabled();
   }

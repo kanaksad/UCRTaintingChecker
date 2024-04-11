@@ -3,9 +3,9 @@ package com.taint.tainting.serialization.visitors;
 import com.sun.source.util.SimpleTreeVisitor;
 import com.sun.tools.javac.code.Symbol;
 import com.sun.tools.javac.util.Context;
-import com.taint.tainting.qual.RTainted;
 import com.taint.tainting.FoundRequired;
 import com.taint.tainting.XTaintingAnnotatedTypeFactory;
+import com.taint.tainting.qual.RTainted;
 import com.taint.tainting.serialization.Fix;
 import com.taint.tainting.serialization.Utility;
 import com.taint.tainting.serialization.location.SymbolLocation;
@@ -30,7 +30,7 @@ public abstract class SpecializedFixComputer extends SimpleTreeVisitor<Set<Fix>,
   protected final Context context;
 
   public SpecializedFixComputer(
-          XTaintingAnnotatedTypeFactory typeFactory, FixComputer fixComputer, Context context) {
+      XTaintingAnnotatedTypeFactory typeFactory, FixComputer fixComputer, Context context) {
     this.context = context;
     this.typeFactory = typeFactory;
     this.fixComputer = fixComputer;

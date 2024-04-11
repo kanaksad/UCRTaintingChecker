@@ -3,7 +3,6 @@ package com.taint.tainting.serialization.location;
 import com.sun.tools.javac.code.Symbol;
 import com.sun.tools.javac.tree.JCTree;
 import com.taint.tainting.serialization.visitors.LocationVisitor;
-
 import java.util.Objects;
 import org.checkerframework.javacutil.TreeUtils;
 

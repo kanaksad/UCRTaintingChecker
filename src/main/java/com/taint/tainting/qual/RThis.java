@@ -1,8 +1,7 @@
 package com.taint.tainting.qual;
 
-import java.lang.annotation.*;
-
 import com.taint.tainting.XTaintingChecker;
+import java.lang.annotation.*;
 import org.checkerframework.framework.qual.SubtypeOf;
 
 /**

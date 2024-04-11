@@ -54,7 +54,7 @@ public class MethodReturnVisitor extends SpecializedFixComputer {
   }
 
   public MethodReturnVisitor(
-          XTaintingAnnotatedTypeFactory factory, FixComputer fixComputer, Context context) {
+      XTaintingAnnotatedTypeFactory factory, FixComputer fixComputer, Context context) {
     super(factory, fixComputer, context);
     this.store = new HashMap<>();
     this.states = new HashMap<>();

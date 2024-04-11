@@ -16,19 +16,18 @@ import com.sun.tools.javac.code.Types;
 import com.sun.tools.javac.processing.JavacProcessingEnvironment;
 import com.sun.tools.javac.tree.JCTree;
 import com.sun.tools.javac.util.Context;
-import com.taint.tainting.serialization.location.MethodLocation;
-import com.taint.tainting.serialization.location.MethodParameterLocation;
-import com.taint.tainting.serialization.location.SymbolLocation;
-import com.taint.tainting.serialization.visitors.PolyTypeMatchVisitor;
-import com.taint.tainting.serialization.visitors.TypeMatchVisitor;
 import com.taint.tainting.FoundRequired;
 import com.taint.tainting.XTaintingAnnotatedTypeFactory;
 import com.taint.tainting.XTaintingChecker;
 import com.taint.tainting.XTaintingVisitor;
 import com.taint.tainting.qual.RTainted;
+import com.taint.tainting.serialization.location.MethodLocation;
+import com.taint.tainting.serialization.location.MethodParameterLocation;
 import com.taint.tainting.serialization.location.PolyMethodLocation;
+import com.taint.tainting.serialization.location.SymbolLocation;
 import com.taint.tainting.serialization.visitors.FixComputer;
-
+import com.taint.tainting.serialization.visitors.PolyTypeMatchVisitor;
+import com.taint.tainting.serialization.visitors.TypeMatchVisitor;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -347,8 +346,7 @@ public class SerializationService {
     ExecutableElement methodElement =
         TreeUtils.elementFromDeclaration((MethodTree) overridingMethodTree);
     AnnotatedTypeMirror.AnnotatedExecutableType overriddenType =
-        ((XTaintingVisitor) checker.getVisitor())
-            .getAnnotatedTypeOfOverriddenMethod(methodElement);
+        ((XTaintingVisitor) checker.getVisitor()).getAnnotatedTypeOfOverriddenMethod(methodElement);
     Symbol.MethodSymbol overriddenMethod =
         Utility.getClosestOverriddenMethod(overridingMethod, types);
     if (overriddenType == null) {

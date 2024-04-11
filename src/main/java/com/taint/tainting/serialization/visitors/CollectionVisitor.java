@@ -19,7 +19,7 @@ import org.checkerframework.framework.type.AnnotatedTypeMirror;
 public class CollectionVisitor extends ReceiverTypeArgumentFixVisitor {
 
   public CollectionVisitor(
-          XTaintingAnnotatedTypeFactory factory, FixComputer fixComputer, Context context) {
+      XTaintingAnnotatedTypeFactory factory, FixComputer fixComputer, Context context) {
     super(factory, fixComputer, context);
   }
 

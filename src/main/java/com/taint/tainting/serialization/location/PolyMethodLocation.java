@@ -1,7 +1,6 @@
 package com.taint.tainting.serialization.location;
 
 import com.taint.tainting.serialization.visitors.LocationVisitor;
-
 import java.util.Objects;
 import java.util.Set;
 

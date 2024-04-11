@@ -27,7 +27,7 @@ import org.checkerframework.javacutil.TreeUtils;
 public class MethodTypeArgumentFixVisitor extends SpecializedFixComputer {
 
   public MethodTypeArgumentFixVisitor(
-          XTaintingAnnotatedTypeFactory factory, FixComputer fixComputer, Context context) {
+      XTaintingAnnotatedTypeFactory factory, FixComputer fixComputer, Context context) {
     super(factory, fixComputer, context);
   }
 

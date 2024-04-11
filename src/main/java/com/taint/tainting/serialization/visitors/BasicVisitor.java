@@ -12,7 +12,6 @@ import com.taint.tainting.FoundRequired;
 import com.taint.tainting.XTaintingAnnotatedTypeFactory;
 import com.taint.tainting.serialization.Fix;
 import com.taint.tainting.serialization.Utility;
-
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -28,7 +27,7 @@ public class BasicVisitor extends SpecializedFixComputer {
   protected TreePath currentPath;
 
   public BasicVisitor(
-          XTaintingAnnotatedTypeFactory factory, FixComputer fixComputer, Context context) {
+      XTaintingAnnotatedTypeFactory factory, FixComputer fixComputer, Context context) {
     super(factory, fixComputer, context);
     this.returnVisitor = new MethodReturnVisitor(typeFactory, fixComputer, context);
   }

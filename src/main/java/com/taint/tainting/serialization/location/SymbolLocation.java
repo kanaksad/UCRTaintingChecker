@@ -3,10 +3,9 @@ package com.taint.tainting.serialization.location;
 import com.sun.tools.javac.code.Symbol;
 import com.sun.tools.javac.tree.JCTree;
 import com.sun.tools.javac.util.Context;
-import com.taint.tainting.serialization.visitors.LocationVisitor;
 import com.taint.tainting.serialization.Serializer;
 import com.taint.tainting.serialization.Utility;
-
+import com.taint.tainting.serialization.visitors.LocationVisitor;
 import java.nio.file.Path;
 import java.util.List;
 import javax.annotation.Nullable;

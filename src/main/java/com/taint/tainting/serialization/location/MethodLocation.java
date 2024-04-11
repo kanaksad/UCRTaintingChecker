@@ -2,7 +2,6 @@ package com.taint.tainting.serialization.location;
 
 import com.sun.tools.javac.code.Symbol;
 import com.taint.tainting.serialization.visitors.LocationVisitor;
-
 import java.util.Objects;
 
 /** subtype of {@link AbstractSymbolLocation} targeting methods. */
