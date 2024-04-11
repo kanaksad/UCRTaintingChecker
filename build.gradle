@@ -86,7 +86,7 @@ publishing {
         maven(MavenPublication) {
             groupId = 'com.example.x'
             artifactId = 'checker'
-            version = '0.1-alpha-3-SNAPSHOT'
+            version = '0.1'
 
             from components.java
         }
